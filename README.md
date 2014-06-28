@@ -8,4 +8,4 @@ more info coming soon...
 
 until then enojoy this video demonstrating YTFloat:
 
-http://cl.ly/1I2Y3w0U2G41
+https://www.youtube.com/watch?v=D_-uF22uusA
