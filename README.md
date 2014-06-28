@@ -1,7 +1,7 @@
 YTFloat
 =======
 
-A floating window that allows you to watch YouTube/Twitch while doing something else
+A floating window that allows you to watch YouTube/Twitch while doing something else. Also packaged with a handy Chrome Extension!
 
 
 more info coming soon...
