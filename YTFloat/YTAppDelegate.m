@@ -12,16 +12,20 @@
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
-    // Insert code here to initialize your application
+    NSLog(@"applicationDidFinishLaunching");
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"RevealWindow" object:nil];
     
     [[NSAppleEventManager sharedAppleEventManager] setEventHandler:self andSelector:@selector(handleURLEvent:withReplyEvent:) forEventClass:kInternetEventClass andEventID:kAEGetURL];
+        
+    [_window setAlphaValue:0.0];
     
-    [ytWebView setLayerUsesCoreImageFilters:YES];
+    NSRect screen = [[NSScreen mainScreen] frame];
+    [self.window setFrame:NSMakeRect(screen.size.width, 13, self.window.frame.size.width, self.window.frame.size.height) display:NO animate:NO];
     
+   
     [_window setLevel:kCGDockWindowLevel];
     
-    [_window becomeKeyWindow];
-    [_window becomeFirstResponder];
+    [_window setBackgroundColor:NSColor.windowBackgroundColor];//[NSColor colorWithDeviceRed:0.188 green:0.514 blue:0.984 alpha:1.000]];
 }
 
 - (void)handleURLEvent:(NSAppleEventDescriptor*)event withReplyEvent:(NSAppleEventDescriptor*)replyEvent
@@ -45,48 +49,43 @@
             [params setObject:[elts objectAtIndex:1] forKey:[elts objectAtIndex:0]];
         }
         
-        NSString *finalURLString = [NSString stringWithFormat:@"https://www.youtube.com/v/%@?hl=en_US&amp;version=3",[params objectForKey:@"v"]];
+        NSString *finalURLString = [NSString stringWithFormat:@"https://www.youtube.com/v/%@?hl=en_US&amp;version=3&amp;autoplay=1&amp;color=white&amp;theme=light&amp;fs=0&amp;rel=0",[params objectForKey:@"v"]];
         
         NSLog(@"%@",params);
         
-        [[ytWebView mainFrame] loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:finalURLString] cachePolicy:NSURLRequestReturnCacheDataElseLoad timeoutInterval:28]];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"PlayAVideo" object:finalURLString];
+        
+        //[[ytWebView mainFrame] loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:finalURLString] cachePolicy:NSURLRequestReturnCacheDataElseLoad timeoutInterval:28]];
     }
     if ([fullRL.host isEqualToString:@"www.twitch.tv"])
     {
         NSLog(@"Twitch Link");
         
         NSString *twURL = [NSString stringWithFormat:@"%@/popout",url];
-        [[ytWebView mainFrame] loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:twURL] cachePolicy:NSURLRequestReturnCacheDataElseLoad timeoutInterval:28]];
+        
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"PlayAVideo" object:twURL];
+        
+        //[[ytWebView mainFrame] loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:twURL] cachePolicy:NSURLRequestReturnCacheDataElseLoad timeoutInterval:28]];
     }
 }
 
-#ifndef NSEventTypeSwipe
-#define NSEventTypeSwipe 31
-#endif
+//- (void)applicationWillBecomeActive:(NSNotification *)notification;
+//{
+    
+//}
 
-- (void)didSwipeWindowWithEvent:(NSNotification *)noti;
+- (void)applicationDidBecomeActive:(NSNotification *)notification;
 {
-	NSEvent *event = [noti object];
-	if ([event deltaX] > 0.5)
-	{ //back
-		//[webView goBack];
-        NSLog(@"Previous");
-	}
-	else if ([event deltaX] < -0.5)
-	{ //forward
-		//[webView goForward];
-        NSLog(@"Next");
-	}
-	else if ([event deltaY] > 0.5)
-	{
-		// TODO(pinkerton): figure out page-up, http://crbug.com/16305
-        
-        NSLog(@"");
-	}
-	else if ([event deltaY] < -0.5)
-	{
-		// TODO(pinkerton): figure out page-down, http://crbug.com/16305
-	}
+   // [_window setBackgroundColor:[NSColor colorWithDeviceRed:0.188 green:0.514 blue:0.984 alpha:1.000]];
+}
+//- (void)applicationWillResignActive:(NSNotification *)notification;
+//{
+    
+//}
+
+- (void)applicationDidResignActive:(NSNotification *)notification;
+{
+   // [_window setBackgroundColor:NSColor.windowBackgroundColor];
 }
 
 /*

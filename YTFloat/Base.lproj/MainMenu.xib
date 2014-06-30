@@ -14,8 +14,7 @@
         <customObject id="-3" userLabel="Application"/>
         <customObject id="Voe-Tx-rLC" customClass="YTAppDelegate">
             <connections>
-                <outlet property="window" destination="QvC-M9-y7g" id="gIp-Ho-8D9"/>
-                <outlet property="ytWebView" destination="0tQ-ya-YRr" id="BzQ-lK-3lo"/>
+                <outlet property="window" destination="QvC-M9-y7g" id="QP6-CZ-w3w"/>
             </connections>
         </customObject>
         <customObject id="YLy-65-1bz" customClass="NSFontManager"/>
@@ -614,6 +613,14 @@
                     <modifierMask key="keyEquivalentModifierMask"/>
                     <menu key="submenu" title="View" id="HyV-fh-RgO">
                         <items>
+                            <menuItem isSeparatorItem="YES" id="GEv-GP-tRz"/>
+                            <menuItem title="Enter Fullscreen" id="sDP-9b-Pmt">
+                                <string key="keyEquivalent" base64-UTF8="YES">
+DQ
+</string>
+                                <modifierMask key="keyEquivalentModifierMask" option="YES"/>
+                            </menuItem>
+                            <menuItem isSeparatorItem="YES" id="ApE-S3-T7N"/>
                             <menuItem title="Show Toolbar" keyEquivalent="t" id="snW-S8-Cw5">
                                 <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
                                 <connections>
@@ -668,27 +675,54 @@
                 </menuItem>
             </items>
         </menu>
-        <window title="YTFloat" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" restorable="NO" releasedWhenClosed="NO" showsToolbarButton="NO" appearanceType="aqua" animationBehavior="default" id="QvC-M9-y7g">
-            <windowStyleMask key="styleMask" closable="YES" texturedBackground="YES"/>
+        <window title="YTFloat" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" restorable="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" appearanceType="aqua" animationBehavior="default" id="QvC-M9-y7g">
+            <windowStyleMask key="styleMask" closable="YES" resizable="YES" texturedBackground="YES"/>
             <windowCollectionBehavior key="collectionBehavior" canJoinAllSpaces="YES" participatesInCycle="YES" fullScreenPrimary="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="1277" y="18" width="386" height="222"/>
             <rect key="screenRect" x="0.0" y="0.0" width="1680" height="1027"/>
             <value key="minSize" type="size" width="386" height="222"/>
-            <value key="maxSize" type="size" width="1006" height="579"/>
-            <view key="contentView" appearanceType="aqua" id="EiT-Mj-1SZ">
+            <view key="contentView" wantsLayer="YES" appearanceType="aqua" id="EiT-Mj-1SZ">
                 <rect key="frame" x="0.0" y="0.0" width="386" height="222"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <webView appearanceType="aqua" id="0tQ-ya-YRr">
-                        <rect key="frame" x="4" y="5" width="377" height="213"/>
+                    <webView appearanceType="aqua" maintainsBackForwardList="NO" id="xOx-u1-0vA">
+                        <rect key="frame" x="3" y="3" width="380" height="216"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <webPreferences key="preferences" defaultFontSize="12" defaultFixedFontSize="12">
+                        <webPreferences key="preferences" defaultFontSize="12" defaultFixedFontSize="12" javaScriptCanOpenWindowsAutomatically="NO" loadsImagesAutomatically="NO" allowsAnimatedImages="NO" allowsAnimatedImageLooping="NO">
                             <nil key="identifier"/>
                         </webPreferences>
                     </webView>
+                    <button appearanceType="aqua" id="B1g-WG-Ugt">
+                        <rect key="frame" x="0.0" y="191" width="29" height="31"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" imagePosition="only" alignment="center" imageScaling="proportionallyDown" inset="2" id="PFP-w5-MC1">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="closeVideo:" target="hNR-0e-XSQ" id="GaL-4o-XxP"/>
+                        </connections>
+                    </button>
+                    <button appearanceType="aqua" id="vQf-B5-tmm">
+                        <rect key="frame" x="0.0" y="0.0" width="13" height="192"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                        <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" imagePosition="only" alignment="center" imageScaling="proportionallyDown" inset="2" id="8YM-hf-Eyi">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="hideVideo:" target="hNR-0e-XSQ" id="UGD-Gh-Khg"/>
+                        </connections>
+                    </button>
                 </subviews>
             </view>
         </window>
+        <customObject id="hNR-0e-XSQ" customClass="YTWindowController">
+            <connections>
+                <outlet property="playerWebView" destination="xOx-u1-0vA" id="WXR-Ey-FrW"/>
+                <outlet property="window" destination="QvC-M9-y7g" id="qKi-d9-XSt"/>
+            </connections>
+        </customObject>
     </objects>
 </document>
