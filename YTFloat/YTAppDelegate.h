@@ -7,12 +7,8 @@
 //
 
 #import <Cocoa/Cocoa.h>
-//#import <WebKit/WebKit.h>
 
 @interface YTAppDelegate : NSObject <NSApplicationDelegate>
-{
-    //IBOutlet WebView *ytWebView;
-}
 
 @property (assign) IBOutlet NSWindow *window;
 

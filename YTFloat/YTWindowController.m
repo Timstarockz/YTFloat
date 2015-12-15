@@ -15,26 +15,24 @@
 
 @implementation YTWindowController
 
-- (id)initWithWindow:(NSWindow *)window
-{
+
+- (id)initWithWindow:(NSWindow *)window {
     self = [super initWithWindow:window];
     if (self) {
         NSLog(@"initWithWindow");
-        
-       // [self.window.contentView setBackgroundColor:[NSColor blueColor]];
-        
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playVideo:) name:@"PlayAVideo" object:nil];
     }
     
     return self;
 }
 
+
 static BOOL hasVideo = NO;
 static BOOL hiddenVid = NO;
 
-- (void)playVideo:(NSNotification *)noti
-{
+- (void)playVideo:(NSNotification *)noti {
     hiddenVid = NO;
+    
     [NSApp unhide:self];
     [self.window makeKeyAndOrderFront:self];
     
@@ -45,60 +43,53 @@ static BOOL hiddenVid = NO;
     
     if (!hasVideo) {
         [self fadeInWindow:self.window];
-        
         NSRect screen = [[NSScreen mainScreen] frame];
-        [self.window setFrame:NSMakeRect(screen.size.width-self.window.frame.size.width-13,13, self.window.frame.size.width, self.window.frame.size.height) display:YES animate:YES];
-        
+        [self.window setFrame:NSMakeRect(screen.size.width-self.window.frame.size.width-13,13,
+                                         self.window.frame.size.width,
+                                         self.window.frame.size.height) display:YES animate:YES];
         hasVideo = YES;
     }
     
     NSLog(@"%@",url);
 }
 
-- (IBAction)hideVideo:(id)sender;
-{
+- (IBAction)hideVideo:(id)sender {
     if (!hiddenVid) {
         
         NSRect screen = [[NSScreen mainScreen] frame];
         [self.window setFrame:NSMakeRect(screen.size.width-30, 13, self.window.frame.size.width, self.window.frame.size.height) display:YES animate:YES];
-        
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.2 * NSEC_PER_SEC)), dispatch_get_main_queue(),
-                       ^{
-                           [self.window setAlphaValue:0.3];
-                           
-                           hiddenVid = YES;
-                       });
-       
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [self.window setAlphaValue:0.3];
+            hiddenVid = YES;
+        });
     } else {
-        hiddenVid = NO;
         
+        hiddenVid = NO;
         NSRect screen = [[NSScreen mainScreen] frame];
         [self.window setFrame:NSMakeRect(screen.size.width-self.window.frame.size.width-13,13, self.window.frame.size.width, self.window.frame.size.height) display:YES animate:YES];
-        
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.3 * NSEC_PER_SEC)), dispatch_get_main_queue(),
-                       ^{
-                           [self.window setAlphaValue:1.0];
-                       });
-        }
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [self.window setAlphaValue:1.0];
+        });
+    }
 }
 
-- (IBAction)closeVideo:(id)sender;
-{
+- (IBAction)closeVideo:(id)sender {
     NSRect screen = [[NSScreen mainScreen] frame];
     [self.window setFrame:NSMakeRect(screen.size.width, 13, self.window.frame.size.width, self.window.frame.size.height) display:YES animate:YES];
     
     [self fadeOutWindow:self.window];
     
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.2 * NSEC_PER_SEC)), dispatch_get_main_queue(),
-                   ^{
-                       hasVideo = NO;
-                       [[playerWebView mainFrame] loadHTMLString:@"" baseURL:nil];
-                       [NSApp hide:self];
-                   });
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        hasVideo = NO;
+        [[playerWebView mainFrame] loadHTMLString:@"" baseURL:nil];
+        [NSApp hide:self];
+    });
 }
 
-- (void)fadeOutWindow:(NSWindow*)window
-{
+
+//// ---------------------------------------------
+// still testing these
+- (void)fadeOutWindow:(NSWindow*)window {
 	float alpha = 1.0;
 	[window setAlphaValue:alpha];
 	[window makeKeyAndOrderFront:self];
@@ -109,8 +100,7 @@ static BOOL hiddenVid = NO;
 	}
 }
 
-- (void)fadeInWindow:(NSWindow*)window
-{
+- (void)fadeInWindow:(NSWindow*)window {
 	float alpha = 0.0;
 	[window setAlphaValue:alpha];
 	[window makeKeyAndOrderFront:self];
@@ -125,8 +115,7 @@ static BOOL hiddenVid = NO;
 #define NSEventTypeSwipe 31
 #endif
 
-- (void)didSwipeWindowWithEvent:(NSNotification *)noti;
-{
+- (void)didSwipeWindowWithEvent:(NSNotification *)noti {
 	NSEvent *event = [noti object];
 	if ([event deltaX] > 0.5)
 	{ //back
@@ -149,5 +138,7 @@ static BOOL hiddenVid = NO;
 		// down
 	}
 }
+
+//// ---------------------------------------------
 
 @end
